@@ -6,4 +6,9 @@ class StaticPagesController < ApplicationController
 
   def help
   end
+
+  def about
+    #=>"app/view/statis_pages_controller.rb"
+
+  end
 end
