@@ -11,4 +11,9 @@ class StaticPagesController < ApplicationController
     #=>"app/view/statis_pages_controller.rb"
 
   end
+
+  def contact
+  end
+
+
 end
