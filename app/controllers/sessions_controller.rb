@@ -1,26 +1,25 @@
 class SessionsController < ApplicationController
-  # Get login
+
   def new
   end
 
-  # POST /login
+
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    if user&& user.authenticate(params[:session][:password])
-      # Success
+    if user && user.authenticate(params[:session][:password])
       log_in user
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      # remember user
       redirect_to user
     else
-      # Failure
-      # alert-danger -> 赤いろのフラッシュ
-      flash.now[:danger] = 'Invalid email/password combination' # 本当は正しくない
+      flash.now[:danger] = 'Invalid email/password combination'
       render 'new'
-      # redirect_to vs render
+
     end
   end
 
   def destroy
-    log_out
+    log_out if logged_in?
     redirect_to root_url
   end
 end
