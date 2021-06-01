@@ -2,6 +2,10 @@ require 'test_helper'
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
 
+  def setup
+    ActionMailer::Base.deliveries.clear
+  end
+
   test "invalid signup information" do
     get signup_path
     assert_no_difference 'User.count' do
@@ -11,6 +15,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "bar" } }
     end
     assert_template 'users/new'
+    # assert_select 'div#<CSS id for error explanation>'
+    # assert_select 'div.<CSS class for field with error>'
   end
 
   test "valid signup information" do
@@ -22,8 +28,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "password" } }
     end
     # ここでテストしたいときもある
+    # assert_template 'users/new'
     follow_redirect!
     assert_template 'users/show'
     assert is_logged_in?
+    # assert_not flash.FILL_IN
   end
 end
